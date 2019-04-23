@@ -26,7 +26,7 @@ public abstract class Person {
 
     }
 
-    public void generatePrivateKey(int num) {
+    public void generatePrivateKey() {
         // TODO: Generate random big integers in the range {2, 3, ..., p-2} where p = primeNumber_p_from_unsecureCha
         BigInteger primeNum_minus2 = primeNumber_p_from_unsecureChannel.subtract(BigInteger.valueOf(2));
         Random rnd = new Random();
@@ -42,15 +42,16 @@ public abstract class Person {
         return this.publicKey;
     }
 
-    public void encryptFile_publish(BigInteger receiverPublicKey){
+    public void encryptFile_publish(BigInteger receiverPublicKey, int pageType){
         BigInteger secretKey = fastExponentiation.calculateModularWithFastExponentiation(receiverPublicKey,privateKey, primeNumber_p_from_unsecureChannel);
         desEncryption.createSecretKey(secretKey.toString());
-        desEncryption.encryptTheFile();
+        desEncryption.encryptTheFile(pageType);
     }
 
-    public void decryptFile(BigInteger senderPublicKey){
+    public void decryptFile(BigInteger senderPublicKey, int pageType){
         BigInteger secretKey = fastExponentiation.calculateModularWithFastExponentiation(senderPublicKey,privateKey, primeNumber_p_from_unsecureChannel);
         desEncryption.createSecretKey(secretKey.toString());
-        desEncryption.decryptTheFile();
+        desEncryption.decryptTheFile(pageType);
     }
+
 }
