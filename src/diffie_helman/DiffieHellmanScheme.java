@@ -8,8 +8,8 @@ import unsecure_channel.UnsecureChannel;
 
 /**
  * Diffie-Hellman exchange scheme
- * Note : I assume that 1 page-length is 500 words is 1 page single spaced
- *            then          10 page-length will be 500*10 = 5000 words etc..
+ * Note : I assume that 1 page-length is 500 words
+ *            then      10 page-length will be 500*10 = 5000 words etc..
  *
  * Note : 0 => Encrypts/Decrypts the 1 page - length file
  *        1 => Encrypts/Decrypts the 10 page - length file
@@ -56,7 +56,6 @@ public class DiffieHellmanScheme {
             System.out.println(measure);
             System.out.println("------------------------------");
         }
-
     }
 
 }

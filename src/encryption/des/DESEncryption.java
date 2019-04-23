@@ -1,5 +1,6 @@
 package encryption.des;
 
+import file_path_handler.FilePathHandler;
 import measurement.Measure;
 
 import javax.crypto.*;
@@ -11,26 +12,11 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 public class DESEncryption {
-    private final String ONE_PAGE_PLAINTEXT_PATH = "files/onePageLength/onePageLength.txt";
-    private final String ONE_PAGE_CIPHERTEXT_OUTPUT_PATH = "files/onePageLength/onePageLengthCipherText.txt";
-    private final String ONE_PAGE_DECRYPTED_PATH = "files/onePageLength/onePageLengthDecrypted.text.txt";
-
-    private final String TEN_PAGE_PLAINTEXT_PATH = "files/tenPageLength/tenPageLength.txt";
-    private final String TEN_PAGE_CIPHERTEXT_OUTPUT_PATH = "files/tenPageLength/tenPageLengthCipherText.txt";
-    private final String TEN_PAGE_DECRYPTED_PATH = "files/tenPageLength/tenPageLengthDecryptedText.txt";
-
-    private final String HUNDRED_PAGE_PLAINTEXT_PATH = "files/hundredPageLength/hundredPageLength.txt";
-    private final String HUNDRED_PAGE_CIPHERTEXT_OUTPUT_PATH = "files/hundredPageLength/hundredPageLengthCipherText.txt";
-    private final String HUNDRED_PAGE_DECRYPTED_PATH = "files/hundredPageLength/hundredPageLengthDecryptedText.txt";
-
-    private final String THOUSAND_PAGE_PLAINTEXT_PATH = "files/thousandPageLength/thousandPageLength.txt";
-    private final String THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH = "files/thousandPageLength/thousandPageLengthCiphertext.txt";
-    private final String THOUSAND_PAGE_DECRYPTED_PATH = "files/thousandPageLength/thousandPageLengthDecryptedText.txt";
-
     private Cipher encryptionCipher;
     private Cipher decryptionCipher;
     private SecretKey secretKey;
     private Measure measure;
+
     /**
      * Creates des secret key
      * Get the key and convert to the bytes array
@@ -66,16 +52,21 @@ public class DESEncryption {
      */
     public void encryptTheFile(int pageType){
         if (pageType == 0)
-            encrypt_page_length(ONE_PAGE_PLAINTEXT_PATH, ONE_PAGE_CIPHERTEXT_OUTPUT_PATH);
+            encrypt_page_length(FilePathHandler.ONE_PAGE_PLAINTEXT_PATH, FilePathHandler.ONE_PAGE_CIPHERTEXT_OUTPUT_PATH);
         else if (pageType == 1)
-            encrypt_page_length(TEN_PAGE_PLAINTEXT_PATH, TEN_PAGE_CIPHERTEXT_OUTPUT_PATH);
+            encrypt_page_length(FilePathHandler.TEN_PAGE_PLAINTEXT_PATH, FilePathHandler.TEN_PAGE_CIPHERTEXT_OUTPUT_PATH);
         else if (pageType == 2)
-            encrypt_page_length(HUNDRED_PAGE_PLAINTEXT_PATH, HUNDRED_PAGE_CIPHERTEXT_OUTPUT_PATH);
+            encrypt_page_length(FilePathHandler.HUNDRED_PAGE_PLAINTEXT_PATH, FilePathHandler.HUNDRED_PAGE_CIPHERTEXT_OUTPUT_PATH);
         else
-            encrypt_page_length(THOUSAND_PAGE_PLAINTEXT_PATH, THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH);
+            encrypt_page_length(FilePathHandler.THOUSAND_PAGE_PLAINTEXT_PATH, FilePathHandler.THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH);
 
     }
 
+    /**
+     * Prepare the encryptionCipher, DES mode, encrypt_mode, secret key etc..
+     * @param plaintextPath is the plain text path
+     * @param cipherTextOutputPath will be the encrypted output text
+     */
     private void encrypt_page_length(String plaintextPath, String cipherTextOutputPath) {
 
         try {
@@ -93,25 +84,13 @@ public class DESEncryption {
         }
     }
 
-//    private void encrypt_10_page_length() {
-//        String tenPagePlaintextFilePath = "files/tenPageLength/tenPageLength.txt";
-//        String cipherTextOutput = "files/tenPageLength/tenPageLengthCipherText.txt";
-//
-//        try {
-//            encryptionCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-//            encryptionCipher.init(Cipher.ENCRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));
-//            encryptProcess(new FileInputStream(tenPagePlaintextFilePath), new FileOutputStream(cipherTextOutput));
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+    /**
+     * Encrypt the plaintext
+     * Before starting the ecryption process, stamp the time and memory usage
+     * After process is done, stamp the time and memory usage again to see performance
+     * @param input is the plaintext input stream
+     * @param output is the ciphertext output stream
+     */
     private void encryptProcess(InputStream input, OutputStream output){
         measure = Measure.getInstance();
 
@@ -131,6 +110,12 @@ public class DESEncryption {
         measure.setBeforeUsedMemory(beforeUsedMemory);
     }
 
+    /**
+     * After encryption/decryption process, write the encrypted/decrypted text to the correspond file
+     * @param input is the plaintext input stream
+     * @param output is the ciphertext output stream
+     * @throws IOException
+     */
     private static void writeBytes(InputStream input, OutputStream output) throws IOException {
         byte[] writeBuffer = new byte[512];
         int readBytes;
@@ -145,13 +130,13 @@ public class DESEncryption {
 
     public void decryptTheFile(int pageType){
         if (pageType == 0)
-            decrypt_page_length(ONE_PAGE_CIPHERTEXT_OUTPUT_PATH, ONE_PAGE_DECRYPTED_PATH);
+            decrypt_page_length(FilePathHandler.ONE_PAGE_CIPHERTEXT_OUTPUT_PATH, FilePathHandler.ONE_PAGE_DECRYPTED_PATH);
         else if (pageType == 1)
-            decrypt_page_length(TEN_PAGE_CIPHERTEXT_OUTPUT_PATH, TEN_PAGE_DECRYPTED_PATH);
+            decrypt_page_length(FilePathHandler.TEN_PAGE_CIPHERTEXT_OUTPUT_PATH, FilePathHandler.TEN_PAGE_DECRYPTED_PATH);
         else if (pageType == 2)
-            decrypt_page_length(HUNDRED_PAGE_CIPHERTEXT_OUTPUT_PATH, HUNDRED_PAGE_DECRYPTED_PATH);
+            decrypt_page_length(FilePathHandler.HUNDRED_PAGE_CIPHERTEXT_OUTPUT_PATH, FilePathHandler.HUNDRED_PAGE_DECRYPTED_PATH);
         else
-            decrypt_page_length(THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH, THOUSAND_PAGE_DECRYPTED_PATH);
+            decrypt_page_length(FilePathHandler.THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH, FilePathHandler.THOUSAND_PAGE_DECRYPTED_PATH);
 
     }
 
@@ -172,28 +157,6 @@ public class DESEncryption {
         }
     }
 
-//    private void decrypt_1_page_length() {
-//
-//    }
-//
-//    private void decrypt_10_page_length() {
-//        String tenPageCipherTextFilePath = "files/tenPageLength/tenPageLengthCipherText.txt";
-//        String decryptedFileOutputPath = "files/tenPageLength/tenPageLengthDecryptedText.txt";
-//
-//        try {
-//            decryptionCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-//            decryptionCipher.init(Cipher.DECRYPT_MODE, secretKey, SecureRandom.getInstance("SHA1PRNG"));
-//            decryptProcess(new FileInputStream(tenPageCipherTextFilePath), new FileOutputStream(decryptedFileOutputPath));
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     private void decryptProcess(InputStream input, OutputStream output) {
         measure = Measure.getInstance();

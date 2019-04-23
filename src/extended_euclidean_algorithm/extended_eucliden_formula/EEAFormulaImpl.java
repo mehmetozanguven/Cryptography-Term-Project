@@ -2,6 +2,10 @@ package extended_euclidean_algorithm.extended_eucliden_formula;
 
 import java.math.BigInteger;
 
+/**
+ * This class holds the Extended Euclidean Formula result and coefficients
+ *      represents the EE formula in a string form
+ */
 public class EEAFormulaImpl implements EEAFormula {
 
     private BigInteger coefficient_s;
@@ -18,11 +22,12 @@ public class EEAFormulaImpl implements EEAFormula {
         this.r1 = r1;
     }
 
-
+    @Override
     public BigInteger getCoefficient_s() {
         return coefficient_s;
     }
 
+    @Override
     public BigInteger getExtendedEuclideanFormulaResult(){
 
         return (coefficient_s.multiply(r0).add(coefficient_t.multiply(r1)));
@@ -40,6 +45,7 @@ public class EEAFormulaImpl implements EEAFormula {
         this.r0 = r0;
     }
 
+    @Override
     public BigInteger getCoefficient_t() {
         return coefficient_t;
     }
@@ -56,6 +62,7 @@ public class EEAFormulaImpl implements EEAFormula {
         this.r1 = r1;
     }
 
+    @Override
     public String toString() {
         return "Extended euclidean algorithm formula: (" + coefficient_s + ") * " + r0
         + " + (" + coefficient_t + ") * " + r1 + " = " + getExtendedEuclideanFormulaResult();
