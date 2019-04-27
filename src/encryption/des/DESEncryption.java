@@ -1,7 +1,7 @@
 package encryption.des;
 
 import file_path_handler.FilePathHandler;
-import measurement.Measure;
+import measurement.PerformanceMeasurement;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESKeySpec;
@@ -15,7 +15,7 @@ public class DESEncryption {
     private Cipher encryptionCipher;
     private Cipher decryptionCipher;
     private SecretKey secretKey;
-    private Measure measure;
+    private PerformanceMeasurement performanceMeasurement;
 
     /**
      * Creates des secret key
@@ -92,7 +92,7 @@ public class DESEncryption {
      * @param output is the ciphertext output stream
      */
     private void encryptProcess(InputStream input, OutputStream output){
-        measure = Measure.getInstance();
+        performanceMeasurement = PerformanceMeasurement.getInstance();
 
         long executionStartTime = System.nanoTime();
         long beforeUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
@@ -104,10 +104,10 @@ public class DESEncryption {
         }
         long executionEndTime = System.nanoTime();
         long afterUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        measure.setExecutionStartTime(executionStartTime);
-        measure.setExecutionEndTime(executionEndTime);
-        measure.setAfterUsedMemory(afterUsedMemory);
-        measure.setBeforeUsedMemory(beforeUsedMemory);
+        performanceMeasurement.setExecutionStartTime(executionStartTime);
+        performanceMeasurement.setExecutionEndTime(executionEndTime);
+        performanceMeasurement.setAfterUsedMemory(afterUsedMemory);
+        performanceMeasurement.setBeforeUsedMemory(beforeUsedMemory);
     }
 
     /**
@@ -159,7 +159,7 @@ public class DESEncryption {
 
 
     private void decryptProcess(InputStream input, OutputStream output) {
-        measure = Measure.getInstance();
+        performanceMeasurement = PerformanceMeasurement.getInstance();
 
         long executionStartTime = System.nanoTime();
         long beforeUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
@@ -171,10 +171,10 @@ public class DESEncryption {
         }
         long executionEndTime = System.nanoTime();
         long afterUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
-        measure.setExecutionStartTime(executionStartTime);
-        measure.setExecutionEndTime(executionEndTime);
-        measure.setAfterUsedMemory(afterUsedMemory);
-        measure.setBeforeUsedMemory(beforeUsedMemory);
+        performanceMeasurement.setExecutionStartTime(executionStartTime);
+        performanceMeasurement.setExecutionEndTime(executionEndTime);
+        performanceMeasurement.setAfterUsedMemory(afterUsedMemory);
+        performanceMeasurement.setBeforeUsedMemory(beforeUsedMemory);
     }
 
 }

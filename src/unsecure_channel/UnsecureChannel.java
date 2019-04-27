@@ -6,6 +6,10 @@ import fermat_little_theorem.FermatLittleTheoremImpl;
 import java.math.BigInteger;
 import java.util.Random;
 
+/**
+ * Unsecure channel representation class
+ *
+ */
 public class UnsecureChannel {
     private BigInteger primeNum_p;
     private BigInteger anyNum_alpha;
@@ -13,6 +17,13 @@ public class UnsecureChannel {
     private BigInteger receiverPublicKey;
     private FermatLittleTheorem fermatLittleTheorem;
 
+    /**
+     * In the constructor, I am doing diffie-hellman set up
+     *
+     * Diffie–Hellman Set-up
+     *  1. Choose a large prime p.
+     *  2. Choose an integer α ∈ {2, 3, . . . , p − 2}.
+     */
     public UnsecureChannel(){
         fermatLittleTheorem = new FermatLittleTheoremImpl();
         generateBigIntegerPrimeNumber();

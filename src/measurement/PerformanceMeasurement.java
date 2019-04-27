@@ -6,15 +6,15 @@ import java.util.concurrent.TimeUnit;
  * This class is responsible for measuring performance, execution time
  *
  */
-public class  Measure {
-    private static Measure measureInstance = null;
+public class PerformanceMeasurement {
+    private static PerformanceMeasurement performanceMeasurementInstance = null;
 
-    private Measure(){}
+    private PerformanceMeasurement(){}
 
-    public static Measure getInstance(){
-        if (measureInstance == null)
-            measureInstance = new Measure();
-        return measureInstance;
+    public static PerformanceMeasurement getInstance(){
+        if (performanceMeasurementInstance == null)
+            performanceMeasurementInstance = new PerformanceMeasurement();
+        return performanceMeasurementInstance;
     }
 
     private long executionStartTime;

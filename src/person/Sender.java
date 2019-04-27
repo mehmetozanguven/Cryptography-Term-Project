@@ -1,8 +1,5 @@
 package person;
 
-import encryption.des.DESEncryption;
-import fast_exponentiation.FastExponentiation;
-import fast_exponentiation.FastExponentiationImpl;
 
 import java.math.BigInteger;
 

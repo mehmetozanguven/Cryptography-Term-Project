@@ -5,6 +5,13 @@ import java.math.BigInteger;
 
 public class FastExponentiationImpl implements FastExponentiation{
 
+    /**
+     * Fast exponentiation algorithm implementation
+     * @param base
+     * @param exponent
+     * @param modulus
+     * @return
+     */
     @Override
     public BigInteger calculateModularWithFastExponentiation(BigInteger base, BigInteger exponent, BigInteger modulus){
         if (exponent.compareTo(BigInteger.ZERO) == 0)
@@ -17,9 +24,4 @@ public class FastExponentiationImpl implements FastExponentiation{
         }
     }
 
-    public static void main(String[] args) {
-        FastExponentiationImpl f = new FastExponentiationImpl();
-        BigInteger result = f.calculateModularWithFastExponentiation(BigInteger.valueOf(7), BigInteger.valueOf(256), BigInteger.valueOf(13));
-        System.out.println(result);
-    }
 }
