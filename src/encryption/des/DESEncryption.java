@@ -80,7 +80,10 @@ public class DESEncryption {
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(".jar file and files folder " +
+                    "(which includes different page length files) have to be put in the same folder" +
+                    "\n" + e.getMessage());
+
         }
     }
 
@@ -153,7 +156,9 @@ public class DESEncryption {
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(".jar file and files folder " +
+                    "(which includes different page length files) have to be put in the same folder" +
+                    "\n" + e.getMessage());
         }
     }
 
