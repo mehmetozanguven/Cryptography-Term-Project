@@ -2,6 +2,7 @@ package encryption.rsa;
 
 import fast_exponentiation.FastExponentiation;
 import fast_exponentiation.FastExponentiationImpl;
+import measurement.PerformanceMeasurement;
 
 
 import java.math.BigInteger;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 public class RSAEncryption {
     private FastExponentiation fastExponentiation;
+    private PerformanceMeasurement performanceMeasurement;
 
     public RSAEncryption(){
         fastExponentiation = new FastExponentiationImpl();
@@ -25,7 +27,18 @@ public class RSAEncryption {
         BigInteger largeNumber_n = rsaKeyPairHandler.getKey();
         BigInteger publicKey_e = rsaKeyPairHandler.getValue();
 
+        performanceMeasurement = PerformanceMeasurement.getInstance();
+        long executionStartTime = System.nanoTime();
+        long beforeUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
+
         BigInteger encryptionResult = fastExponentiation.calculateModularWithFastExponentiation(key, publicKey_e, largeNumber_n);
+
+        long executionEndTime = System.nanoTime();
+        long afterUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
+        performanceMeasurement.setExecutionStartTime(executionStartTime);
+        performanceMeasurement.setExecutionEndTime(executionEndTime);
+        performanceMeasurement.setAfterUsedMemory(afterUsedMemory);
+        performanceMeasurement.setBeforeUsedMemory(beforeUsedMemory);
 
         return encryptionResult;
     }
@@ -41,7 +54,19 @@ public class RSAEncryption {
         BigInteger largeNumber_n = rsaKeyPairHandler.getKey();
         BigInteger publicKey_d = rsaKeyPairHandler.getValue();
 
+        performanceMeasurement = PerformanceMeasurement.getInstance();
+        long executionStartTime = System.nanoTime();
+        long beforeUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
+
         BigInteger decryptionResult = fastExponentiation.calculateModularWithFastExponentiation(key, publicKey_d, largeNumber_n);
+
+        long executionEndTime = System.nanoTime();
+        long afterUsedMemory=Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory();
+        performanceMeasurement.setExecutionStartTime(executionStartTime);
+        performanceMeasurement.setExecutionEndTime(executionEndTime);
+        performanceMeasurement.setAfterUsedMemory(afterUsedMemory);
+        performanceMeasurement.setBeforeUsedMemory(beforeUsedMemory);
+
         return decryptionResult;
     }
 }

@@ -25,6 +25,7 @@ public abstract class Person {
     private Map<BigInteger, BigInteger> publicKeyPair;
     private Map<BigInteger, BigInteger> privateKeyPair;
 
+
     private BigNumberGenerator bigNumberGenerator;
 
     public Person(){

@@ -17,7 +17,7 @@ import unsecure_channel.UnsecureChannel;
  */
 public class RSAScheme {
     // Define the bit length for rsa algorithm
-    private static final int BIT_LENGTH = 512;
+    private static final int BIT_LENGTH = 1024;
 
     static PerformanceMeasurement performanceMeasurement = PerformanceMeasurement.getInstance();
 
@@ -60,7 +60,8 @@ public class RSAScheme {
         // receiver will publish its public key pair(N,e) to unsecurechannel
         unsecureChannel.setReceiverPublicKeyPair(receiver.getPublicKeyPair());
 
-        // now sender will get this pair(receiver's public key) from the unsecure channel
+        // now sender will get this pair(receiver's public key)
+        // (therefore receiver will have shared its public key with sender) from the unsecure channel
         // to encrypt its random DES key
         sender.encryptRandomDESKeyWithRSA(unsecureChannel.getReceiverPublicKey(), rsaEncryption);
         // after encrypting DES key, sender will now publish the encrypted DES key to unsecure channel
@@ -73,16 +74,17 @@ public class RSAScheme {
         int[] pageLength = new int[] {1,10,100,1000};
         for (int i = 0; i <= 3; i++){
             // now sender will encrypt and publish all the files
-            sender.encryptFile_publish(pageLength[i], desEncryption);
+            sender.encryptFile_publish(i, desEncryption);
             System.out.println("Here is the ENCRYPTION time and memory usage of " + pageLength[i] + " page-length");
             System.out.println(performanceMeasurement);
+            performanceMeasurement.clearPerformanceMeasurement();
             System.out.println("------------------------------");
             // receiver will decrypt all the files
-            receiver.decryptFile(pageLength[i], rsaEncryption, unsecureChannel.getSenderRandomDESWithRSAEncryption(), desEncryption);
+            receiver.decryptFile(i, rsaEncryption, unsecureChannel.getSenderRandomDESWithRSAEncryption(), desEncryption);
             System.out.println("Here is the DECRYPTION time and memory usage of " + pageLength[i] + " page-length");
             System.out.println(performanceMeasurement);
+            performanceMeasurement.clearPerformanceMeasurement();
             System.out.println("------------------------------");
         }
-
     }
 }

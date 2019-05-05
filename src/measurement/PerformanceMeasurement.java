@@ -23,20 +23,28 @@ public class PerformanceMeasurement {
     private long beforeUsedMemory;
     private long afterUsedMemory;
 
+
     public void setExecutionStartTime(long executionStartTime) {
-        this.executionStartTime = executionStartTime;
+        this.executionStartTime += executionStartTime;
     }
 
     public void setExecutionEndTime(long executionEndTime) {
-        this.executionEndTime = executionEndTime;
+        this.executionEndTime += executionEndTime;
     }
 
     public void setBeforeUsedMemory(long beforeUsedMemory) {
-        this.beforeUsedMemory = beforeUsedMemory;
+        this.beforeUsedMemory += beforeUsedMemory;
     }
 
     public void setAfterUsedMemory(long afterUsedMemory) {
-        this.afterUsedMemory = afterUsedMemory;
+        this.afterUsedMemory += afterUsedMemory;
+    }
+
+    public void clearPerformanceMeasurement(){
+        this.afterUsedMemory = 0;
+        this.beforeUsedMemory = 0;
+        this.executionEndTime = 0;
+        this.executionStartTime = 0;
     }
 
     public String toString(){
