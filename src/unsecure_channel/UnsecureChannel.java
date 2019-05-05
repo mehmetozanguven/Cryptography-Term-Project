@@ -1,31 +1,41 @@
 package unsecure_channel;
 
-import fermat_little_theorem.FermatLittleTheorem;
-import fermat_little_theorem.FermatLittleTheoremImpl;
+import bignumber_generator.BigNumberGenerator;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Unsecure channel representation class
  *
  */
-public class UnsecureChannel {
+public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecureChannel{
     private BigInteger primeNum_p;
     private BigInteger anyNum_alpha;
-    private BigInteger senderPublicKey;
-    private BigInteger receiverPublicKey;
-    private FermatLittleTheorem fermatLittleTheorem;
+    private BigInteger diffieHellmanSenderPublicKey;
+    private BigInteger diffieHellmanReceiverPublicKey;
+
+    private Map<BigInteger, BigInteger> senderPublicKey;
+    private Map<BigInteger, BigInteger> receiverPublicKey;
+
+    private BigNumberGenerator bigNumberGenerator;
+    private BigInteger senderRandomDESWithRSAEncryption;
+    private BigInteger receiverRandomDESWithRSAEncryption;
+
+    public UnsecureChannel(){
+        bigNumberGenerator = new BigNumberGenerator();
+        senderPublicKey = new HashMap<>();
+        receiverPublicKey = new HashMap<>();
+    }
+
 
     /**
-     * In the constructor, I am doing diffie-hellman set up
-     *
      * Diffie–Hellman Set-up
      *  1. Choose a large prime p.
      *  2. Choose an integer α ∈ {2, 3, . . . , p − 2}.
      */
-    public UnsecureChannel(){
-        fermatLittleTheorem = new FermatLittleTheoremImpl();
+    public void diffieHellmanSetup(){
         generateBigIntegerPrimeNumber();
         generateNumberAlpha();
     }
@@ -37,20 +47,7 @@ public class UnsecureChannel {
      *      a^{p-1} = 1 (mod p) where p is the primeNumCandidate in the code.
      */
     private void generateBigIntegerPrimeNumber(){
-        BigInteger base = BigInteger.valueOf(2);
-        boolean isPrimeNumberGenerated = false;
-
-        while (!isPrimeNumberGenerated){
-            Random rnd = new Random();
-            BigInteger primeNumCandidate = new BigInteger(64, rnd);
-            BigInteger primeNumCandidate_minus1 = primeNumCandidate.subtract(BigInteger.ONE);
-            fermatLittleTheorem.calculateFermatLittleTheorem(base,primeNumCandidate_minus1,primeNumCandidate);
-            BigInteger fermatLittleTheoremResult = fermatLittleTheorem.getFermatLittleTheoremResult();
-            if (fermatLittleTheoremResult.compareTo(BigInteger.ONE) == 0){
-                primeNum_p = primeNumCandidate;
-                isPrimeNumberGenerated = true;
-            }
-        }
+        primeNum_p = bigNumberGenerator.generateBigPrimeIntegersWithNumberOfBits(64);
     }
 
     /**
@@ -58,9 +55,7 @@ public class UnsecureChannel {
      */
     private void generateNumberAlpha(){
         BigInteger primeNum_minus2 = primeNum_p.subtract(BigInteger.valueOf(2));
-        Random rnd = new Random();
-        BigInteger alphaNumCandidate = new BigInteger(primeNum_minus2.bitLength(), rnd);
-        anyNum_alpha = alphaNumCandidate;
+        anyNum_alpha = bigNumberGenerator.generateBigIntegersWithNumberOfBits(primeNum_minus2.bitLength());
     }
 
     public BigInteger getPrimeNum_p() {
@@ -71,19 +66,69 @@ public class UnsecureChannel {
         return anyNum_alpha;
     }
 
-    public BigInteger getSenderPublicKey() {
+    public BigInteger getDiffieHellmanSenderPublicKey() {
+        return diffieHellmanSenderPublicKey;
+    }
+
+    public void setDiffieHellmanSenderPublicKey(BigInteger diffieHellmanSenderPublicKey) {
+        this.diffieHellmanSenderPublicKey = diffieHellmanSenderPublicKey;
+    }
+
+    public BigInteger getDiffieHellmanReceiverPublicKey() {
+        return diffieHellmanReceiverPublicKey;
+    }
+
+    public void setDiffieHellmanReceiverPublicKey(BigInteger diffieHellmanReceiverPublicKey) {
+        this.diffieHellmanReceiverPublicKey = diffieHellmanReceiverPublicKey;
+    }
+
+    /**
+     * Returns the rsa public key and public number n
+     * @return
+     */
+    public Map<BigInteger, BigInteger> getSenderPublicKey() {
         return senderPublicKey;
     }
 
-    public void setSenderPublicKey(BigInteger senderPublicKey) {
+    /**
+     * set the sender public key and large prime number n as a hashmap
+     * where key=n and value is the public key
+     * @param senderPublicKey
+     */
+    public void setSenderPublicKeyPair(Map<BigInteger, BigInteger> senderPublicKey) {
         this.senderPublicKey = senderPublicKey;
     }
 
-    public BigInteger getReceiverPublicKey() {
+    /**
+     * Returns the receiver public key
+     * @return
+     */
+    public Map<BigInteger, BigInteger> getReceiverPublicKey() {
         return receiverPublicKey;
     }
 
-    public void setReceiverPublicKey(BigInteger receiverPublicKey) {
+    /**
+     * set the receiver public key and large prime number n as a hashmap
+     * where key=n and value is the public key
+     * @param receiverPublicKey
+     */
+    public void setReceiverPublicKeyPair(Map<BigInteger, BigInteger> receiverPublicKey) {
         this.receiverPublicKey = receiverPublicKey;
+    }
+
+    public BigInteger getSenderRandomDESWithRSAEncryption() {
+        return senderRandomDESWithRSAEncryption;
+    }
+
+    public void setSenderRandomDESWithRSAEncryption(BigInteger senderRandomDESWithRSAEncryption) {
+        this.senderRandomDESWithRSAEncryption = senderRandomDESWithRSAEncryption;
+    }
+
+    public BigInteger getReceiverRandomDESWithRSAEncryption() {
+        return receiverRandomDESWithRSAEncryption;
+    }
+
+    public void setReceiverRandomDESWithRSAEncryption(BigInteger receiverRandomDESWithRSAEncryption) {
+        this.receiverRandomDESWithRSAEncryption = receiverRandomDESWithRSAEncryption;
     }
 }

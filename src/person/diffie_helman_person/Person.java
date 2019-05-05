@@ -1,8 +1,9 @@
-package person;
+package person.diffie_helman_person;
 
 import encryption.des.DESEncryption;
 import fast_exponentiation.FastExponentiation;
 import fast_exponentiation.FastExponentiationImpl;
+import person.DiffieHellmanPerson;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.Random;
 /**
  * Abstract class for Sender and receiver
  */
-public abstract class Person {
+public abstract class Person  {
 
     private BigInteger primeNumber_p_from_unsecureChannel;
     private BigInteger anyNumber_alpha_from_unsecureChannel;
@@ -20,19 +21,10 @@ public abstract class Person {
     private DESEncryption desEncryption;
     private FastExponentiation fastExponentiation;
 
-    /**
-     * When creating a person, he/she will take the numbers from the unsecure channel
-     * to produce his/her public and private key
-     * @param primeNumber_p_from_unsecureChannel is the prime number from the unsecure channel
-     * @param anyNumber_alpha_from_unsecureChannel is the alpha(a) number from the unsecure channel
-     */
-    public Person(BigInteger primeNumber_p_from_unsecureChannel, BigInteger anyNumber_alpha_from_unsecureChannel){
-        this.primeNumber_p_from_unsecureChannel = primeNumber_p_from_unsecureChannel;
-        this.anyNumber_alpha_from_unsecureChannel = anyNumber_alpha_from_unsecureChannel;
 
+    public Person(){
         this.desEncryption = new DESEncryption();
         this.fastExponentiation = new FastExponentiationImpl();
-
     }
 
     /**
@@ -71,7 +63,7 @@ public abstract class Person {
      * @param pageType states the page length (0 => 1 page-length, 1 => 10 page-length ...)
      */
     public void encryptFile_publish(BigInteger receiverPublicKey, int pageType){
-        BigInteger secretKey = fastExponentiation.calculateModularWithFastExponentiation(receiverPublicKey,privateKey, primeNumber_p_from_unsecureChannel);
+        BigInteger secretKey = fastExponentiation.calculateModularWithFastExponentiation(receiverPublicKey, privateKey, primeNumber_p_from_unsecureChannel);
         desEncryption.createSecretKey(secretKey.toString());
         desEncryption.encryptTheFile(pageType);
     }
@@ -87,4 +79,11 @@ public abstract class Person {
         desEncryption.decryptTheFile(pageType);
     }
 
+    public void setPrimeNumber_p_from_unsecureChannel(BigInteger primeNumber_p_from_unsecureChannel) {
+        this.primeNumber_p_from_unsecureChannel = primeNumber_p_from_unsecureChannel;
+    }
+
+    public void setAnyNumber_alpha_from_unsecureChannel(BigInteger anyNumber_alpha_from_unsecureChannel) {
+        this.anyNumber_alpha_from_unsecureChannel = anyNumber_alpha_from_unsecureChannel;
+    }
 }

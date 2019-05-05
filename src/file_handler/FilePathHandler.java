@@ -1,4 +1,4 @@
-package file_path_handler;
+package file_handler;
 
 /**
  * This class holds the file path of each different page-length files

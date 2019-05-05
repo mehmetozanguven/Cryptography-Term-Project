@@ -1,11 +1,10 @@
-import diffie_helman.DiffieHellmanScheme;
 
+import rsa_scheme.RSAScheme;
 
 public class Main {
 
 
     public static void main(String[] args) {
-
-        DiffieHellmanScheme.startDiffieHellmanScheme();
+        RSAScheme.startRSAScheme();
     }
 }

@@ -1,6 +1,6 @@
 package encryption.des;
 
-import file_path_handler.FilePathHandler;
+import file_handler.FilePathHandler;
 import measurement.PerformanceMeasurement;
 
 import javax.crypto.*;
