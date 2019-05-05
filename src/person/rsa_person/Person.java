@@ -20,6 +20,7 @@ public abstract class Person {
     private BigInteger eulerPhiResult;
     private BigInteger randomDESKey;
     private BigInteger randomDESKeyWithRSAEncryption;
+
     // this map private fields represents the key pair (N,e) & (N,d) respectively
     private Map<BigInteger, BigInteger> publicKeyPair;
     private Map<BigInteger, BigInteger> privateKeyPair;
@@ -140,10 +141,12 @@ public abstract class Person {
 
     /**
      * Decrypts the files according to the types(pageType)
+     * First decrypt the "randomDESKeyWithRSAEncryption" using private key pair
+     * then decrypt the all files according to the "decryptDESKey"
      * @param pageType states the page length (0 => 1 page-length, 1 => 10 page-length ...)
-     * @param rsaEncryption
-     * @param randomDESKeyWithRSAEncryption
-     * @param desEncryption
+     * @param rsaEncryption represents the rsa encryption class
+     * @param randomDESKeyWithRSAEncryption encrypted des key
+     * @param desEncryption represents the des encryption class
      */
     public void decryptFile(int pageType, RSAEncryption rsaEncryption, BigInteger randomDESKeyWithRSAEncryption, DESEncryption desEncryption){
         BigInteger decryptDESKey = rsaEncryption.decryptTheKey(privateKeyPair, randomDESKeyWithRSAEncryption);

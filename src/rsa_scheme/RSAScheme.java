@@ -60,7 +60,8 @@ public class RSAScheme {
         // receiver will publish its public key pair(N,e) to unsecurechannel
         unsecureChannel.setReceiverPublicKeyPair(receiver.getPublicKeyPair());
 
-        // now sender will get this pair from the unsecure channel to encrypt its random DES key
+        // now sender will get this pair(receiver's public key) from the unsecure channel
+        // to encrypt its random DES key
         sender.encryptRandomDESKeyWithRSA(unsecureChannel.getReceiverPublicKey(), rsaEncryption);
         // after encrypting DES key, sender will now publish the encrypted DES key to unsecure channel
         unsecureChannel.setSenderRandomDESWithRSAEncryption(sender.getRandomDESKeyWithRSAEncryption());

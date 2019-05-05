@@ -3,7 +3,6 @@ package person.diffie_helman_person;
 import encryption.des.DESEncryption;
 import fast_exponentiation.FastExponentiation;
 import fast_exponentiation.FastExponentiationImpl;
-import person.DiffieHellmanPerson;
 
 import java.math.BigInteger;
 import java.util.Random;
