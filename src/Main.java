@@ -1,9 +1,10 @@
 
+import dss_scheme.DSSScheme;
 import rsa_scheme.RSAScheme;
 
 public class Main {
 
     public static void main(String[] args) {
-        RSAScheme.startRSAScheme();
+        DSSScheme.startDSSScheme();
     }
 }

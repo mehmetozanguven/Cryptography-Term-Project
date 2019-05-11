@@ -10,14 +10,25 @@ import java.util.Map;
  * Unsecure channel representation class
  *
  */
-public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecureChannel{
+public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecureChannel, DSSUnsecureChannel{
+    // DiffieHellman attributes
     private BigInteger primeNum_p;
     private BigInteger anyNum_alpha;
     private BigInteger diffieHellmanSenderPublicKey;
     private BigInteger diffieHellmanReceiverPublicKey;
+    // DiffieHellman attributes
 
+    // RSA attributes
     private Map<BigInteger, BigInteger> senderPublicKey;
     private Map<BigInteger, BigInteger> receiverPublicKey;
+    // RSA attributes
+
+    // DSS attributes
+    private Map<Integer, BigInteger> senderPublicKeyComponents;
+    private Map<Integer, BigInteger> senderSignaturePair;
+    private Map<Integer, BigInteger> receiverPublicKeyComponents;
+    private Map<Integer, BigInteger> receiverSignaturePair;
+    // DSS attributes
 
     private BigNumberGenerator bigNumberGenerator;
     private BigInteger senderRandomDESWithRSAEncryption;
@@ -29,6 +40,8 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         receiverPublicKey = new HashMap<>();
     }
 
+
+    // ------------------------(START) DiffieHellmanUnsecureChannel Implementation ---------------------------------
 
     /**
      * Diffie–Hellman Set-up
@@ -82,6 +95,12 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         this.diffieHellmanReceiverPublicKey = diffieHellmanReceiverPublicKey;
     }
 
+    // ------------------------(END) DiffieHellmanUnsecureChannel Implementation ---------------------------------
+
+
+
+    // ------------------------(START) RSAUnsecureChannel Implementation ---------------------------------
+
     /**
      * Returns the rsa public key and public number n
      * @return
@@ -130,5 +149,66 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
 
     public void setReceiverRandomDESWithRSAEncryption(BigInteger receiverRandomDESWithRSAEncryption) {
         this.receiverRandomDESWithRSAEncryption = receiverRandomDESWithRSAEncryption;
+    }
+
+    // ------------------------(END) RSAUnsecureChannel Implementation ---------------------------------
+
+
+    // ------------------------(START) DSSUnsecureChannel Implementation ---------------------------------
+
+    @Override
+    public Map<Integer, BigInteger> getSenderPublicKeyComponents() {
+        if (this.senderPublicKeyComponents == null){
+            throw new NullPointerException("Sender Key Components null. First invoke setSenderPublicKeyComponents()");
+        }else{
+            return this.senderPublicKeyComponents;
+        }
+    }
+
+    @Override
+    public void setSenderPublicKeyComponents(Map<Integer, BigInteger> senderPublicKeyComponents) {
+        this.senderPublicKeyComponents = senderPublicKeyComponents;
+    }
+
+    @Override
+    public Map<Integer, BigInteger> getSenderSignaturePair() {
+        if (this.senderSignaturePair == null){
+            throw new NullPointerException("Sender Signature pair is null. First invoke setSenderSignaturePair()");
+        }else{
+            return this.receiverPublicKeyComponents;
+        }
+    }
+
+    @Override
+    public void setSenderSignaturePair(Map<Integer, BigInteger> senderSignaturePair) {
+        this.senderSignaturePair = senderSignaturePair;
+    }
+
+    @Override
+    public Map<Integer, BigInteger> getReceiverPublicKeyComponents() {
+        if (this.receiverPublicKeyComponents == null){
+            throw new NullPointerException("Receiver Key Components null. First invoke setSenderPublicKeyComponents()");
+        }else{
+            return this.receiverPublicKeyComponents;
+        }
+    }
+
+    @Override
+    public void setReceiverPublicKeyComponents(Map<Integer, BigInteger> receiverPublicKeyComponents) {
+        this.receiverPublicKeyComponents = receiverPublicKeyComponents;
+    }
+
+    @Override
+    public Map<Integer, BigInteger> getReceiverSignaturePair() {
+        if (this.receiverSignaturePair == null){
+            throw new NullPointerException("Receiver Signature pair is null. First invoke setSenderSignaturePair()");
+        }else{
+            return this.receiverPublicKeyComponents;
+        }
+    }
+
+    @Override
+    public void setReceiverSignaturePair(Map<Integer, BigInteger> receiverSignaturePair) {
+        this.receiverSignaturePair = receiverSignaturePair;
     }
 }

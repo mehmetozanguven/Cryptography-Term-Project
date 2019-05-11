@@ -41,4 +41,10 @@ public class BigNumberGenerator {
         BigInteger bigInteger = new BigInteger(bitsNumber, rnd);
         return bigInteger;
     }
+
+    public BigInteger generateBigIntegersWithUpperLimit(BigInteger upperLimit){
+        Random random = new Random();
+        BigInteger bigInteger = new BigInteger(upperLimit.bitLength(), random);
+        return bigInteger;
+    }
 }
