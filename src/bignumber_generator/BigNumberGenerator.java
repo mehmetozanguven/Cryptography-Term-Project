@@ -42,9 +42,27 @@ public class BigNumberGenerator {
         return bigInteger;
     }
 
-    public BigInteger generateBigIntegersWithUpperLimit(BigInteger upperLimit){
-        Random random = new Random();
-        BigInteger bigInteger = new BigInteger(upperLimit.bitLength(), random);
-        return bigInteger;
+    public BigInteger bigIntInRange(BigInteger min, BigInteger max){
+        Random rnd = new Random();
+
+        BigInteger x = new BigInteger(max.bitLength(), rnd);
+
+        //while x <= min || x >= max
+        //So far while testing I've only seen a max of 4 iterations of the loop.
+        //Generally it's either 0 or 1 iterations
+        while (x.compareTo(min) <= 0 || x.compareTo(max) >= 0){
+            x = new BigInteger(max.bitLength(), rnd);
+        }
+        return x;
+    }
+
+    public BigInteger powBigInteger(BigInteger base, BigInteger exponent) {
+        BigInteger result = BigInteger.ONE;
+        while (exponent.signum() > 0) {
+            if (exponent.testBit(0)) result = result.multiply(base);
+            base = base.multiply(base);
+            exponent = exponent.shiftRight(1);
+        }
+        return result;
     }
 }

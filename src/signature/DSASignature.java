@@ -29,7 +29,7 @@ public class DSASignature {
 
         computeNumber_r(number_g, randomNumber_k, number_p, number_q);
 
-        String hashedMessage = SHA3Hash.sha3_256_hash_with(message);
+        byte[] hashedMessage = SHA3Hash.sha3_256_hash_with(message);
         BigInteger hashBigInteger = new BigInteger(hashedMessage);
 
         computeNumber_s(randomNumber_k, publicKey, number_q, hashBigInteger);
@@ -53,7 +53,7 @@ public class DSASignature {
 
         BigInteger number_w = computeNumber_w(number_s, number_q);
 
-        String hashedMessage = SHA3Hash.sha3_256_hash_with(message);
+        byte[] hashedMessage = SHA3Hash.sha3_256_hash_with(message);
         BigInteger hashBigInteger = new BigInteger(hashedMessage);
 
         BigInteger number_u1 = computeNumber_u1(number_w, number_q, hashBigInteger);
@@ -66,6 +66,7 @@ public class DSASignature {
 
 
     private void computeNumber_r(BigInteger number_g, BigInteger number_k, BigInteger number_p, BigInteger number_q){
+        System.out.println(number_g + " " + number_k + " " + number_p + " " + number_q);
         BigInteger firstModOperation = fastExponentiation.calculateModularWithFastExponentiation(number_g, number_k, number_p);
         number_r = firstModOperation.mod(number_q);
     }

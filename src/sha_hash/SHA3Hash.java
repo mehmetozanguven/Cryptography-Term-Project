@@ -8,18 +8,19 @@ public class SHA3Hash {
 
     private SHA3Hash(){}
 
-    public static String sha3_256_hash_with(String message){
+    public static byte[] sha3_256_hash_with(String message){
         MessageDigest digest = null;
-        String hashedString = null;
+        byte[] messageToByte = message.getBytes();
+
+        byte[] encodedhash = null;
         try {
-            digest = MessageDigest.getInstance("SHA3-256");
-            byte[] encodedhash = digest.digest(
-                    message.getBytes(StandardCharsets.UTF_8));
-            hashedString = bytesToHex(encodedhash);
+            digest = MessageDigest.getInstance("SHA-256");
+            encodedhash = digest.digest(
+                    messageToByte);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return hashedString;
+        return encodedhash;
     }
 
     private static String bytesToHex(byte[] hash) {

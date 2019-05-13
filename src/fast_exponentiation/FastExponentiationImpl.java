@@ -14,14 +14,16 @@ public class FastExponentiationImpl implements FastExponentiation{
      */
     @Override
     public BigInteger calculateModularWithFastExponentiation(BigInteger base, BigInteger exponent, BigInteger modulus){
-        if (exponent.compareTo(BigInteger.ZERO) == 0)
-            return BigInteger.ONE;
-        else if ((exponent.remainder(BigInteger.valueOf(2))).compareTo(BigInteger.ZERO) == 0){
-            BigInteger nResult = calculateModularWithFastExponentiation(base, exponent.divide(BigInteger.valueOf(2)), modulus);
-            return (nResult.multiply(nResult)).remainder(modulus);
-        }else{
-            return ((base.remainder(modulus)).multiply(calculateModularWithFastExponentiation(base, exponent.subtract(BigInteger.ONE),modulus))).remainder(modulus);
+        BigInteger y = new BigInteger("1");
+        for(int i = 0; i < exponent.bitLength(); i++){
+            if (exponent.testBit(i)) {
+                y = y.multiply(base);
+                y = y.mod(modulus);
+            }
+            base = base.multiply(base);
+            base = base.mod(modulus);
         }
+        return y;
     }
 
 }
