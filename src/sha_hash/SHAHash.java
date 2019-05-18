@@ -1,20 +1,24 @@
 package sha_hash;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SHA3Hash {
+public class SHAHash {
 
-    private SHA3Hash(){}
+    private SHAHash(){}
 
+    /**
+     * Hash the message and return as byte array
+     * @param message that will be hashed
+     * @return
+     */
     public static byte[] sha3_256_hash_with(String message){
         MessageDigest digest = null;
         byte[] messageToByte = message.getBytes();
 
         byte[] encodedhash = null;
         try {
-            digest = MessageDigest.getInstance("SHA-512");
+            digest = MessageDigest.getInstance("SHA-256");
             digest.update(message.getBytes(),0,message.length());
             encodedhash = digest.digest(
                     messageToByte);
@@ -24,13 +28,4 @@ public class SHA3Hash {
         return encodedhash;
     }
 
-    private static String bytesToHex(byte[] hash) {
-        StringBuffer hexString = new StringBuffer();
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if(hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
 }

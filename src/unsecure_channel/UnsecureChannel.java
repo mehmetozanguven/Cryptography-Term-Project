@@ -24,10 +24,12 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
     // RSA attributes
 
     // DSS attributes
-    private Map<Integer, BigInteger> senderPublicKeyComponents;
-    private Map<Integer, BigInteger> senderSignaturePair;
-    private Map<Integer, BigInteger> receiverPublicKeyComponents;
-    private Map<Integer, BigInteger> receiverSignaturePair;
+    private BigInteger[] senderDSAPublicKeyComponent;
+    private BigInteger[] senderDSASignParameter;
+    private String senderMessage;
+    private BigInteger[] receiverDSAPublicKeyComponent;
+    private BigInteger[] receiverDSASignParameter;
+    private String receiverMessage;
     // DSS attributes
 
     private BigNumberGenerator bigNumberGenerator;
@@ -156,59 +158,64 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
 
     // ------------------------(START) DSSUnsecureChannel Implementation ---------------------------------
 
+
     @Override
-    public Map<Integer, BigInteger> getSenderPublicKeyComponents() {
-        if (this.senderPublicKeyComponents == null){
-            throw new NullPointerException("Sender Key Components null. First invoke setSenderPublicKeyComponents()");
-        }else{
-            return this.senderPublicKeyComponents;
-        }
+    public void setSenderDSAPublicKeyComponent(BigInteger[] senderDSAPublicKeyComponent) {
+        this.senderDSAPublicKeyComponent = senderDSAPublicKeyComponent;
     }
 
     @Override
-    public void setSenderPublicKeyComponents(Map<Integer, BigInteger> senderPublicKeyComponents) {
-        this.senderPublicKeyComponents = senderPublicKeyComponents;
+    public void setSenderDSASignParameter(BigInteger[] senderDSASignParameter) {
+        this.senderDSASignParameter = senderDSASignParameter;
     }
 
     @Override
-    public Map<Integer, BigInteger> getSenderSignaturePair() {
-        if (this.senderSignaturePair == null){
-            throw new NullPointerException("Sender Signature pair is null. First invoke setSenderSignaturePair()");
-        }else{
-            return this.receiverPublicKeyComponents;
-        }
+    public void setSenderMessage(String senderMessage) {
+        this.senderMessage = senderMessage;
     }
 
     @Override
-    public void setSenderSignaturePair(Map<Integer, BigInteger> senderSignaturePair) {
-        this.senderSignaturePair = senderSignaturePair;
+    public BigInteger[] getSenderDSAPublicKeyComponent() {
+        return senderDSAPublicKeyComponent;
     }
 
     @Override
-    public Map<Integer, BigInteger> getReceiverPublicKeyComponents() {
-        if (this.receiverPublicKeyComponents == null){
-            throw new NullPointerException("Receiver Key Components null. First invoke setSenderPublicKeyComponents()");
-        }else{
-            return this.receiverPublicKeyComponents;
-        }
+    public BigInteger[] getSenderDSASignParameter() {
+        return senderDSASignParameter;
     }
 
     @Override
-    public void setReceiverPublicKeyComponents(Map<Integer, BigInteger> receiverPublicKeyComponents) {
-        this.receiverPublicKeyComponents = receiverPublicKeyComponents;
+    public String getSenderMessage() {
+        return senderMessage;
     }
 
     @Override
-    public Map<Integer, BigInteger> getReceiverSignaturePair() {
-        if (this.receiverSignaturePair == null){
-            throw new NullPointerException("Receiver Signature pair is null. First invoke setSenderSignaturePair()");
-        }else{
-            return this.receiverPublicKeyComponents;
-        }
+    public void setReceiverDSAPublicKeyComponent(BigInteger[] receiverDSAPublicKeyComponent) {
+        this.receiverDSAPublicKeyComponent = receiverDSAPublicKeyComponent;
     }
 
     @Override
-    public void setReceiverSignaturePair(Map<Integer, BigInteger> receiverSignaturePair) {
-        this.receiverSignaturePair = receiverSignaturePair;
+    public void setReceiverDSASignParameter(BigInteger[] receiverDSASignParameter) {
+        this.receiverDSASignParameter = receiverDSASignParameter;
+    }
+
+    @Override
+    public void setReceiverMessage(String receiverMessage) {
+        this.receiverMessage = receiverMessage;
+    }
+
+    @Override
+    public BigInteger[] getReceiverDSAPublicKeyComponent() {
+        return receiverDSAPublicKeyComponent;
+    }
+
+    @Override
+    public BigInteger[] getReceiverDSASignParameter() {
+        return receiverDSASignParameter;
+    }
+
+    @Override
+    public String getReceiverMessage() {
+        return receiverMessage;
     }
 }

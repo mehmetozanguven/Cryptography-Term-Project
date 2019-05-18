@@ -5,21 +5,27 @@ import java.util.Map;
 
 public interface DSSUnsecureChannel {
 
-    Map<Integer, BigInteger> getSenderPublicKeyComponents();
+    void setSenderDSAPublicKeyComponent(BigInteger[] senderDSAPublicKeyComponent);
 
-    void setSenderPublicKeyComponents(Map<Integer, BigInteger> senderPublicKeyComponents);
+    void setSenderDSASignParameter(BigInteger[] senderDSASignParameter);
 
-    Map<Integer, BigInteger> getSenderSignaturePair();
+    void setSenderMessage(String senderMessage);
 
-    void setSenderSignaturePair(Map<Integer, BigInteger> senderSignaturePair);
+    BigInteger[] getSenderDSAPublicKeyComponent();
 
-    Map<Integer, BigInteger> getReceiverPublicKeyComponents();
+    BigInteger[] getSenderDSASignParameter();
 
-    void setReceiverPublicKeyComponents(Map<Integer, BigInteger> receiverPublicKeyComponents);
+    String getSenderMessage();
 
-    Map<Integer, BigInteger> getReceiverSignaturePair();
+    void setReceiverDSAPublicKeyComponent(BigInteger[] receiverDSAPublicKeyComponent);
 
-    void setReceiverSignaturePair(Map<Integer, BigInteger> receiverSignaturePair);
+    void setReceiverDSASignParameter(BigInteger[] receiverDSASignParameter);
 
+    void setReceiverMessage(String receiverMessage);
 
+    BigInteger[] getReceiverDSAPublicKeyComponent();
+
+    BigInteger[] getReceiverDSASignParameter();
+
+    String getReceiverMessage();
 }

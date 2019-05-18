@@ -1,4 +1,4 @@
-package diffie_helman;
+package diffie_helman_scheme;
 
 import measurement.PerformanceMeasurement;
 import person.diffie_helman_person.Person;
