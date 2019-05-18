@@ -14,7 +14,8 @@ public class SHA3Hash {
 
         byte[] encodedhash = null;
         try {
-            digest = MessageDigest.getInstance("SHA-256");
+            digest = MessageDigest.getInstance("SHA-512");
+            digest.update(message.getBytes(),0,message.length());
             encodedhash = digest.digest(
                     messageToByte);
         } catch (NoSuchAlgorithmException e) {

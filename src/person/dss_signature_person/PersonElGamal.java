@@ -8,7 +8,8 @@ import sha_hash.SHA3Hash;
 import java.math.BigInteger;
 
 public abstract class PersonElGamal {
-    private final int LARGEPRIME_P_LENGHT = 10;
+    private final int LARGE_PRIME_P_LENGHT = 10;
+
     private BigNumberGenerator bigNumberGenerator;
     private FastExponentiation fastExponentiation;
     private ExtendedEuclideanAlgorithm extendedEuclideanAlgorithm;
@@ -126,16 +127,13 @@ public abstract class PersonElGamal {
         return bigNumberGenerator.bigIntInRange(min, max);
     }
 
-
-
-
     private BigInteger computePrimitiveNumber_a() {
-        BigInteger randomInteger = bigNumberGenerator.generateBigIntegersWithNumberOfBits(LARGEPRIME_P_LENGHT);
+        BigInteger randomInteger = bigNumberGenerator.generateBigIntegersWithNumberOfBits(LARGE_PRIME_P_LENGHT);
         return randomInteger.mod(largePrime_p);
     }
 
     private BigInteger computeLargePrimeP() {
-        return bigNumberGenerator.generateBigPrimeIntegersWithNumberOfBits(LARGEPRIME_P_LENGHT);
+        return bigNumberGenerator.generateBigPrimeIntegersWithNumberOfBits(LARGE_PRIME_P_LENGHT);
     }
 
 

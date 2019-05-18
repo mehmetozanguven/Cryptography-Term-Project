@@ -5,9 +5,7 @@ import extended_euclidean_algorithm.ExtendedEuclideanAlgorithm;
 import extended_euclidean_algorithm.ExtendedEuclideanAlgorithmImpl;
 import fast_exponentiation.FastExponentiation;
 import fast_exponentiation.FastExponentiationImpl;
-import person.dss_signature_person.PersonElGamal;
-import person.dss_signature_person.Receiver;
-import person.dss_signature_person.Sender;
+import person.dss_signature_person.*;
 import signature.DSASignature;
 import unsecure_channel.DSSUnsecureChannel;
 import unsecure_channel.UnsecureChannel;
@@ -30,12 +28,11 @@ public class DSSScheme {
         // Create unsecureChannel(represents the Internet),
         DSSUnsecureChannel dssUnsecureChannel = new UnsecureChannel();
 
-        PersonElGamal sender = new Sender(bigNumberGenerator, fastExponentiation ,extendedEuclideanAlgorithm);
-        sender.elGamalKeyGeneration();
-        sender.signTheMessage(simpleMessage);
+        TestPerson sender = new Sender(bigNumberGenerator, fastExponentiation ,extendedEuclideanAlgorithm);
+        sender.DSAKeyGeneration();
+        sender.signMessage(simpleMessage);
 
-        PersonElGamal receiver = new Receiver(bigNumberGenerator, fastExponentiation, extendedEuclideanAlgorithm);
-        receiver.verifyTheMessage(sender.getPublicKeyComponents(), sender.getSignatureParameters(), "ozan");
-
+        TestPerson receiver = new Receiver(bigNumberGenerator, fastExponentiation, extendedEuclideanAlgorithm);
+        receiver.verifyMessage("ozanx", sender.getSignParameter(), sender.getPublicParameter());
     }
 }

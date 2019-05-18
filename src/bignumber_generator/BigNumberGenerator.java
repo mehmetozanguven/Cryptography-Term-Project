@@ -2,6 +2,7 @@ package bignumber_generator;
 
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -56,6 +57,10 @@ public class BigNumberGenerator {
         return x;
     }
 
+    public BigInteger powBigIntegerInMod(BigInteger base, BigInteger exponent, BigInteger modNumber){
+        return base.modPow(exponent, modNumber);
+    }
+
     public BigInteger powBigInteger(BigInteger base, BigInteger exponent) {
         BigInteger result = BigInteger.ONE;
         while (exponent.signum() > 0) {
@@ -65,4 +70,6 @@ public class BigNumberGenerator {
         }
         return result;
     }
+
+
 }

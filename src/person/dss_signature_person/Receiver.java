@@ -4,7 +4,7 @@ import bignumber_generator.BigNumberGenerator;
 import extended_euclidean_algorithm.ExtendedEuclideanAlgorithm;
 import fast_exponentiation.FastExponentiation;
 
-public class Receiver extends PersonElGamal {
+public class Receiver extends TestPerson {
     public Receiver(BigNumberGenerator bigNumberGenerator, FastExponentiation fastExponentiation, ExtendedEuclideanAlgorithm extendedEuclideanAlgorithm) {
         super(bigNumberGenerator, fastExponentiation, extendedEuclideanAlgorithm);
     }
