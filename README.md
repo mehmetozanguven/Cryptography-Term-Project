@@ -223,3 +223,40 @@ Then sender will publish his/her public key to Internet
 unsecureChannel.setSenderPublicKeyPair(sender.getPublicKeyPair());
 ````
 
+After all, now sender can encrypt the files and publish them:
+
+````java
+sender.encryptFile_publish(i, desEncryption);// where i represents the file's type
+````
+
+Then receiver can decrypt the files:
+
+````java
+receiver.decryptFile(i, rsaEncryption, unsecureChannel.getSenderRandomDESWithRSAEncryption(), desEncryption);
+````
+
+## Third Stage - DSS
+
+### How identification works in this stage?
+- In this stage, sender will sign the message with his/her private key. That's means only one who has the
+  sender's public key can verify the message. Therefore receiver can be sure about the sender. Because
+  not other fake keys will not work.
+
+### How integrity works in this stage?
+- In this stage, integrity can be applied via hash function. Because hash function is one-way property
+  function and output of hash function will be unique for the message. Therefore, if any bit changes in the
+  message, hash function output will be different, then we can say that "sender's message is changed
+  during the transmission"
+
+### How non-repudiation works in this stage?
+- In DSA algorithm, we create signature with sender's private key. That's means only one who has the
+  sender's public key can verify the message. Therefore we can be sure that this message belongs to the
+  sender not attacker or something else. Thus, sender can not deny the creation of the message.
+
+### How to satisfy secrecy?
+- To satisfy secrecy, I used encryption algorithm. Because of large data, I decided to use my DES
+implementation.
+- However there is key exchange problem in DES. To solve that issue, I used my RSA implementation.
+- In other words, I used hybrid encryption where key exchange was done by RSA, and encryption of the
+data was done by DES
+
