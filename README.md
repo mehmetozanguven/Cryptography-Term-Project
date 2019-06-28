@@ -45,7 +45,7 @@ In this stage, we were free to choose AES or DES. I chose the DES to encrypt & d
 1. Create a unsecure channel which represents the Internet
 
 ````java
-        DiffieHellmanUnsecureChannel unsecureChannel = new UnsecureChannel();
+DiffieHellmanUnsecureChannel unsecureChannel = new UnsecureChannel();
 ````
 
 2. Then set the prime number(p) and alpha number(a), these are the public numbers and I will need these number for Diffie-Hellman Key exchange
@@ -106,3 +106,120 @@ sender.encryptFile_publish(unsecureChannel.getDiffieHellmanReceiverPublicKey(), 
 ````
 
 9. At the same time, I am going to measure the performance of encryption & decryption process via `performanceMeasurement` instance
+
+
+## Second Stage - RSA Encryption & Decryption
+
+In this stage, sender & receiver will generate their own RSA public-private key pairs.
+Then according to the RSA implementation, they will encrypt/decrypt the files
+Measure the performance of encryption/decryption process
+
+In this stage, we were not allowed to use any RSA implementation libraries. Then, I had to create new class.
+- [BigNumberGenerator](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/src/bignumber_generator/BigNumberGenerator.java) to generate big prime integers p & q
+
+Even technically possible, RSA is not an appropriate choice for big files encryption/decryption. Because:
+- RSA encrypts "messages" of limited size
+- RSA is a slower algorithm for big file sizes
+
+Then I came up with the solution called Hybrid model:
+- Using asymmetric and symmetric encryption/decryption.
+- One of the problem in symmetric encryption is to sharing the key.
+- To solve that problem, I used the RSA algorithm.
+
+In hybrid encryption:
+- Sender will generate random DES key
+- Sender will encrypt the files with that DES key.
+- Then sender will encrypt the DES key with RSA(via Receiver's public key) and publish to unsecure channel
+(Internet)
+- Receiver will decrypt the encrypted DES key with its private key.
+- Then receiver will be able to decrypt the files.
+
+1. Create a unsecure channel which represents the Internet
+
+````java
+RSAUnsecureChannel unsecureChannel = new UnsecureChannel();
+````
+
+2. Create [RSAEncryption](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/src/encryption/rsa/RSAEncryption.java) and DESEncryption (implemented in the first stage)
+
+````java
+RSAEncryption rsaEncryption = new RSAEncryption();
+DESEncryption desEncryption = new DESEncryption();
+````
+
+3. Create a sender person
+
+````java
+Person sender = new Sender();
+````
+
+4. Set the RSA bit length
+
+````java
+sender.setBitLength(BIT_LENGTH);
+````
+
+5. Generate large prime number p & q
+
+````java
+sender.generateLargePrimeNumber_p();
+sender.generateLargePrimeNumber_q();
+````
+
+6. Compute number N = p*q
+
+````java
+sender.compute_number_n();
+````
+
+7. Compute Euler's phi function T = (p-1)*(q-1)
+
+````java
+sender.computeEulerPhiFunction();
+````
+
+8. Compute public and private key
+
+````java
+sender.computePublicKey();
+sender.computePrivateKey();
+````
+
+9. Generate random DES key to encrypt the files
+
+````java
+sender.generateRandomDESKey();
+````
+
+
+
+Apply the same processes to the receiver instance (`Person receiver = new Receiver()` )
+
+
+
+After that, receiver will publish his/her public key to the Internet
+
+````java
+unsecureChannel.setReceiverPublicKeyPair(receiver.getPublicKeyPair());
+````
+
+Right now, sender will get this pair(receiver's public key). (therefore receiver will have shared its public key with sender) from the unsecure channel to encrypt his/her random DES key
+
+````java
+sender.encryptRandomDESKeyWithRSA(unsecureChannel.getReceiverPublicKey(), rsaEncryption); // sender encrpyts the DES key with Receiver's public key
+````
+
+
+
+After encrypting DES key, sender will now publish the encrypted DES key to Internet
+
+````java
+unsecureChannel.setSenderRandomDESWithRSAEncryption(sender.getRandomDESKeyWithRSAEncryption());
+````
+
+Then sender will publish his/her public key to Internet
+
+````java
+unsecureChannel.setSenderPublicKeyPair(sender.getPublicKeyPair());
+````
+
