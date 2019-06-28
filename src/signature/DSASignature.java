@@ -1,5 +1,7 @@
 package signature;
 import bignumber_generator.BigNumberGenerator;
+import extended_euclidean_algorithm.ExtendedEuclideanAlgorithm;
+import extended_euclidean_algorithm.ExtendedEuclideanAlgorithmImpl;
 import fast_exponentiation.FastExponentiation;
 import fast_exponentiation.FastExponentiationImpl;
 import sha_hash.SHAHash;
@@ -16,6 +18,7 @@ import  java.security.interfaces.DSAPublicKey;
 public class DSASignature {
     private BigNumberGenerator bigNumberGenerator;
     private FastExponentiation fastExponentiation;
+    private ExtendedEuclideanAlgorithm extendedEuclideanAlgorithm;
 
     private BigInteger number_p;
     private BigInteger number_q;
@@ -29,6 +32,7 @@ public class DSASignature {
     public DSASignature(){
         bigNumberGenerator = new BigNumberGenerator();
         fastExponentiation = new FastExponentiationImpl();
+        extendedEuclideanAlgorithm = new ExtendedEuclideanAlgorithmImpl();
     }
 
     // getter for signParameter
@@ -108,7 +112,7 @@ public class DSASignature {
      * @param message
      */
     public void signMessage(String message) {
-        byte[] hashMessageWithByte = SHAHash.sha3_256_hash_with(message);
+        byte[] hashMessageWithByte = SHAHash.sha_256_hash_with(message);
         BigInteger hashedBigInteger = new BigInteger(hashMessageWithByte);
         BigInteger number_k = generateRandomNumber_k();
         BigInteger number_r = computeNumber_r(number_k);
@@ -141,13 +145,19 @@ public class DSASignature {
 
     /**
      * Compute the signature parameter s
+     * To calculate inverse of k(k^{-1}), I used extended euclidean algorithm
+     * For example:
+     *      11.d = 1 (mod 23) (find the inverse of 11 in mod 23) :
+     *          gcd(23,11) = n.23 + s.11 = 1 (then s = 11^{-1} )
+     *
      * @param number_k
      * @param number_r
      * @param hash
      * @return
      */
     private BigInteger computeNumber_s(BigInteger number_k, BigInteger number_r, BigInteger hash){
-        BigInteger inverse_k = number_k.modInverse(number_q);
+        extendedEuclideanAlgorithm.calculateExtendedEuclideanAlgorithm(number_q, number_k);
+        BigInteger inverse_k = extendedEuclideanAlgorithm.getCoefficientOfR1();
         // x.r
         BigInteger x_r = number_x.multiply(number_r);
         // hash + x.r
@@ -185,7 +195,7 @@ public class DSASignature {
         BigInteger number_g = publicParameter[2];
         BigInteger number_y = publicParameter[3];
 
-        byte[] hashMessageWithByte = SHAHash.sha3_256_hash_with(message);
+        byte[] hashMessageWithByte = SHAHash.sha_256_hash_with(message);
         BigInteger hashedBigInteger = new BigInteger(hashMessageWithByte);
 
         BigInteger number_w = computeNumber_w(number_s, number_q);

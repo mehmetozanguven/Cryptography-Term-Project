@@ -3,7 +3,10 @@ package person.rsa_person;
 import bignumber_generator.BigNumberGenerator;
 import encryption.des.DESEncryption;
 import encryption.rsa.RSAEncryption;
+import file_handler.FilePathHandler;
+import file_handler.FileToStringConverter;
 import greatest_common_divisor.GreatestCommonDivisorCalculator;
+import signature.DSASignature;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -25,11 +28,17 @@ public abstract class Person {
     private Map<BigInteger, BigInteger> publicKeyPair;
     private Map<BigInteger, BigInteger> privateKeyPair;
 
+    // DSA attributes
+    private String fileAsString;
+    private signature.DSASignature DSASignature;
+    private BigInteger[] signParameter;
+    private BigInteger[] publicParameter;
 
     private BigNumberGenerator bigNumberGenerator;
 
     public Person(){
         this.bigNumberGenerator = new BigNumberGenerator();
+        this.DSASignature = new DSASignature();
     }
 
     public void setBitLength(int bitLength) {
@@ -156,6 +165,103 @@ public abstract class Person {
     }
 
 
+    // ----------------------- DSA Methods --------------------------------
+    /**
+     * Generates essential keys for DSA algorithm
+     * To generate keys, invoke the keyGeneration method in DSASignature class
+     * Then get the public parameter as an array
+     */
+    public void DSAKeyGeneration(){
+        DSASignature.keyGeneration();
+        publicParameter = DSASignature.getPublicParameter();
+    }
+
+    /**
+     * Sign the file
+     * @param fileType represents the file type.
+     *                 0 => file which is one page length
+     *                 1 =>               ten page length
+     *                 2 =>               hundred page length
+     *                 others =>          thousand page length
+     *
+     *  After learning file type, get the file content as string
+     *  then sign that string(file content) with invoking signMessage method in DSASignature
+     *  after all, get the signature parameter(r,s) as an array
+     */
+    public void signFile(int fileType){
+        if (fileType == 0)
+            fileAsString = FileToStringConverter.getFileContentAsString(FilePathHandler.ONE_PAGE_PLAINTEXT_PATH);
+        else if (fileType == 1)
+            fileAsString = FileToStringConverter.getFileContentAsString(FilePathHandler.TEN_PAGE_PLAINTEXT_PATH);
+        else if (fileType == 2)
+            fileAsString = FileToStringConverter.getFileContentAsString(FilePathHandler.HUNDRED_PAGE_PLAINTEXT_PATH);
+        else
+            fileAsString = FileToStringConverter.getFileContentAsString(FilePathHandler.THOUSAND_PAGE_PLAINTEXT_PATH);
+
+        DSASignature.signMessage(fileAsString);
+        signParameter =  DSASignature.getSignParameter();
+    }
+
+    /**
+     * @return signature parameter
+     */
+    public BigInteger[] getSignParameter(){
+        return signParameter;
+    }
+
+    /**
+     * @return public key parameter
+     */
+    public BigInteger[] getPublicParameter(){
+        return publicParameter;
+    }
+
+    /**
+     * @return file content as string
+     */
+    public String getFileAsString(){
+        return fileAsString;
+    }
+
+    /**
+     * Verify the encrypted file
+     * First decrypt it, then get content of decrypted file
+     * and verify it.
+     * @param pageType represents page type (1 page-length, 10 page-length...)
+     * @param rsaEncryption rsa encryption object
+     * @param desEncryption des encryption object
+     * @param signParameter is the sender's signature parameter
+     * @param publicParameter is the sender's receiver public key parameter
+     * invoke the method verifyFile in DSASignature
+     */
+    public void verifyFile(int pageType,
+                           BigInteger[] signParameter,
+                           BigInteger[] publicParameter,
+                           RSAEncryption rsaEncryption,
+                           DESEncryption desEncryption,
+                           BigInteger randomDESKeyWithRSAEncryption){
+
+        decryptFile(pageType, rsaEncryption, randomDESKeyWithRSAEncryption, desEncryption);
+
+        String message = getDecrpytedFileContentAsString(pageType);
+
+
+        DSASignature.verifyMessage(message, signParameter, publicParameter);
+    }
+
+    private String getDecrpytedFileContentAsString(int fileType) {
+        String fileContent = "";
+        if (fileType == 0)
+            fileContent = FileToStringConverter.getFileContentAsString(FilePathHandler.ONE_PAGE_DECRYPTED_PATH);
+        else if (fileType == 1)
+            fileContent = FileToStringConverter.getFileContentAsString(FilePathHandler.TEN_PAGE_DECRYPTED_PATH);
+        else if (fileType == 2)
+            fileContent = FileToStringConverter.getFileContentAsString(FilePathHandler.HUNDRED_PAGE_DECRYPTED_PATH);
+        else
+            fileContent = FileToStringConverter.getFileContentAsString(FilePathHandler.THOUSAND_PAGE_DECRYPTED_PATH);
+        return fileContent;
+
+    }
 
 
 }

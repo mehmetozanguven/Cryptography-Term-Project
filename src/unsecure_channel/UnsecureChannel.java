@@ -169,10 +169,6 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         this.senderDSASignParameter = senderDSASignParameter;
     }
 
-    @Override
-    public void setSenderMessage(String senderMessage) {
-        this.senderMessage = senderMessage;
-    }
 
     @Override
     public BigInteger[] getSenderDSAPublicKeyComponent() {
@@ -184,10 +180,6 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         return senderDSASignParameter;
     }
 
-    @Override
-    public String getSenderMessage() {
-        return senderMessage;
-    }
 
     @Override
     public void setReceiverDSAPublicKeyComponent(BigInteger[] receiverDSAPublicKeyComponent) {
@@ -199,10 +191,6 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         this.receiverDSASignParameter = receiverDSASignParameter;
     }
 
-    @Override
-    public void setReceiverMessage(String receiverMessage) {
-        this.receiverMessage = receiverMessage;
-    }
 
     @Override
     public BigInteger[] getReceiverDSAPublicKeyComponent() {
@@ -214,8 +202,4 @@ public class UnsecureChannel implements DiffieHellmanUnsecureChannel, RSAUnsecur
         return receiverDSASignParameter;
     }
 
-    @Override
-    public String getReceiverMessage() {
-        return receiverMessage;
-    }
 }

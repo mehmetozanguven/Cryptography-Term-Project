@@ -12,7 +12,7 @@ public class SHAHash {
      * @param message that will be hashed
      * @return
      */
-    public static byte[] sha3_256_hash_with(String message){
+    public static byte[] sha_256_hash_with(String message){
         MessageDigest digest = null;
         byte[] messageToByte = message.getBytes();
 

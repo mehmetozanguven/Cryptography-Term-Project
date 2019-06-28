@@ -62,4 +62,13 @@ public class ExtendedEuclideanAlgorithmImpl implements ExtendedEuclideanAlgorith
         return this.prevFormula.getExtendedEuclideanFormulaResult();
     }
 
+    @Override
+    public BigInteger getCoefficientOfR0() {
+        return prevFormula.getCoefficient_s();
+    }
+
+    @Override
+    public BigInteger getCoefficientOfR1() {
+        return prevFormula.getCoefficient_t();
+    }
 }

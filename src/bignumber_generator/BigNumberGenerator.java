@@ -2,7 +2,6 @@ package bignumber_generator;
 
 
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -56,20 +55,4 @@ public class BigNumberGenerator {
         }
         return x;
     }
-
-    public BigInteger powBigIntegerInMod(BigInteger base, BigInteger exponent, BigInteger modNumber){
-        return base.modPow(exponent, modNumber);
-    }
-
-    public BigInteger powBigInteger(BigInteger base, BigInteger exponent) {
-        BigInteger result = BigInteger.ONE;
-        while (exponent.signum() > 0) {
-            if (exponent.testBit(0)) result = result.multiply(base);
-            base = base.multiply(base);
-            exponent = exponent.shiftRight(1);
-        }
-        return result;
-    }
-
-
 }

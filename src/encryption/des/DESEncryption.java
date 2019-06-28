@@ -1,7 +1,12 @@
 package encryption.des;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64EncoderStream;
 import file_handler.FilePathHandler;
+import file_handler.FileToStringConverter;
 import measurement.PerformanceMeasurement;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESKeySpec;
@@ -61,7 +66,6 @@ public class DESEncryption {
             encrypt_page_length(FilePathHandler.THOUSAND_PAGE_PLAINTEXT_PATH, FilePathHandler.THOUSAND_PAGE_CIPHERTEXT_OUTPUT_PATH);
 
     }
-
     /**
      * Prepare the encryptionCipher, DES mode, encrypt_mode, secret key etc..
      * @param plaintextPath is the plain text path
@@ -86,6 +90,8 @@ public class DESEncryption {
 
         }
     }
+
+
 
     /**
      * Encrypt the plaintext
@@ -131,6 +137,15 @@ public class DESEncryption {
         input.close();
     }
 
+    /**
+     * Decrypts the file according to the page type
+     * int Page type states the page-length
+     * for 0 => Encrypts the 1 page - length file
+     *     1 => Encrypts the 10 page - length file
+     *     2 => Encrypts the 100 page - length file
+     *     3 => Encrypts the 1000 page - length file
+     * @param pageType
+     */
     public void decryptTheFile(int pageType){
         if (pageType == 0)
             decrypt_page_length(FilePathHandler.ONE_PAGE_CIPHERTEXT_OUTPUT_PATH, FilePathHandler.ONE_PAGE_DECRYPTED_PATH);
@@ -143,6 +158,12 @@ public class DESEncryption {
 
     }
 
+
+    /**
+     * Prepare the decryptionCipher, DES mode, decrypt_mode, secret key etc..
+     * @param cipherTextPath is the cipher text path
+     * @param decryptedTextPath will be the decrypted output text
+     */
     private void decrypt_page_length(String cipherTextPath, String decryptedTextPath) {
 
         try {
@@ -161,6 +182,7 @@ public class DESEncryption {
                     "\n" + e.getMessage());
         }
     }
+
 
 
     private void decryptProcess(InputStream input, OutputStream output) {

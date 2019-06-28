@@ -9,4 +9,8 @@ public interface ExtendedEuclideanAlgorithm {
     String getEuclideanAlgorithmInString();
 
     BigInteger getExtendedEuclideanFormulaResult();
+
+    BigInteger getCoefficientOfR0();
+
+    BigInteger getCoefficientOfR1();
 }
