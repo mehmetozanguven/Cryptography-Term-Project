@@ -21,6 +21,18 @@ To implement these schemes, I also implemented following properties/algorithms/p
 - [Fermat Little Theorem](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/src/fermat_little_theorem/FermatLittleTheoremImpl.java)
 - [Fast Exponentiation](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/src/fast_exponentiation/FastExponentiationImpl.java)
 
+To run any stage, just uncomment the following statements in the [Main.java](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/src/Main.java):
+
+````java
+public class Main {
+    public static void main(String [] args){
+        //DiffieHellmanScheme.startDiffieHellmanScheme();
+        //RSAScheme.startRSAScheme();
+        //DSSScheme.startDSSScheme();
+    }
+}
+
+````
 
 
 ## First Stage - AES or DES with Diffie-Hellman Scheme
@@ -44,8 +56,11 @@ unsecureChannel.diffieHellmanSetup();
 3. Create the sender and receiver parties and set the prime number(p) and alpha number(a)
 
 ````java
-Person sender = new Sender();        sender.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());        sender.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
-Person receiver = new Receiver();       receiver.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());     receiver.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
+Person sender = new Sender();
+sender.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());
+sender.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
+Person receiver = new Receiver();       receiver.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());
+receiver.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
 
 ````
 
@@ -87,4 +102,3 @@ sender.encryptFile_publish(unsecureChannel.getDiffieHellmanReceiverPublicKey(), 
 ````
 
 9. At the same time, I am going to measure the performance of encryption & decryption process via `performanceMeasurement` instance
-
