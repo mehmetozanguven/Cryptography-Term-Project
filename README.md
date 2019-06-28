@@ -1,6 +1,7 @@
 # Cryptography Term Project
 
 > You may find the term project assignment in [this](https://github.com/mehmetozanguven/Cryptography-Term-Project/blob/master/assignment/CENG471_Term%20Assignment_v2.pdf) link
+
 > Note: In the project, due to measure the performance, there are 3 different types of files that will be encrypted/decrypted/signed/verified.
 >
 > One-page-length is the file type which contains only one page characters
@@ -59,7 +60,9 @@ unsecureChannel.diffieHellmanSetup();
 Person sender = new Sender();
 sender.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());
 sender.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
-Person receiver = new Receiver();       receiver.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());
+
+Person receiver = new Receiver();
+receiver.setPrimeNumber_p_from_unsecureChannel(unsecureChannel.getPrimeNum_p());
 receiver.setAnyNumber_alpha_from_unsecureChannel(unsecureChannel.getAnyNum_alpha());
 
 ````
@@ -82,6 +85,7 @@ unsecureChannel.setDiffieHellmanSenderPublicKey(sender.publishPublicKey());
 ````java
 receiver.generatePrivateKey();
 receiver.generatePublicKey();
+
 unsecureChannel.setDiffieHellmanReceiverPublicKey(receiver.publishPublicKey());
 ````
 
