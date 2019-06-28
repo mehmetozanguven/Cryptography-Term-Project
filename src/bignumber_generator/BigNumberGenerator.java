@@ -42,17 +42,14 @@ public class BigNumberGenerator {
         return bigInteger;
     }
 
-    public BigInteger bigIntInRange(BigInteger min, BigInteger max){
-        Random rnd = new Random();
-
-        BigInteger x = new BigInteger(max.bitLength(), rnd);
-
-        //while x <= min || x >= max
-        //So far while testing I've only seen a max of 4 iterations of the loop.
-        //Generally it's either 0 or 1 iterations
-        while (x.compareTo(min) <= 0 || x.compareTo(max) >= 0){
-            x = new BigInteger(max.bitLength(), rnd);
-        }
-        return x;
-    }
+//    public BigInteger bigIntInRange(BigInteger min, BigInteger max){
+//        Random rnd = new Random();
+//
+//        BigInteger x = new BigInteger(max.bitLength(), rnd);
+//
+//        while (x.compareTo(min) <= 0 || x.compareTo(max) >= 0){
+//            x = new BigInteger(max.bitLength(), rnd);
+//        }
+//        return x;
+//    }
 }
